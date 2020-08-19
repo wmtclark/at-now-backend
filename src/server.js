@@ -3,7 +3,10 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import apiRouter from './router';
+
+dotenv.config({ silent: true });
 
 const app = express();
 

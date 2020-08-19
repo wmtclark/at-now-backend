@@ -4,6 +4,7 @@ const UserSchema = new Schema({
   name: String,
   assignments: [{ type: Schema.Types.ObjectId, ref: 'Assignment' }],
   calendar_link: String,
+  gid: String,
 },
 {
   toObject: { virtuals: true },
