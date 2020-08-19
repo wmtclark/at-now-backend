@@ -8,14 +8,14 @@ dotenv.config({ silent: true });
 // and then the secret is usable this way:
 
 export const signin = (req, res, next) => {
-  return verifyToken(req.body.token).then((payload) => {
+  return verifyToken(req.body.accessToken).then((payload) => {
     console.log(payload);
     res.send({ jwt: tokenForUser(payload.sub) });
   }).catch((e) => { res.send(e); });
 };
 
 export const signup = (req, res, next) => {
-  return verifyToken(req.body.token).then((payload) => {
+  return verifyToken(req.body.accessToken).then((payload) => {
     console.log(payload);
     if (!payload) {
       return res.status(422).send('You must provide valid ID token');
