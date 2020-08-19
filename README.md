@@ -16,7 +16,8 @@ There is currently no auth, as all user information is dealt with in a google au
 
 1. pull the code from the repo
 2. run `yarn install` in order to get the required dependencies
-3. run `yarn start` to deploy to [localhost9090](http://localhost:9090/) for testing and debugging locally
+3. add the .env file to the root directory containing the correct secret keys
+4. run `yarn start` to deploy to [localhost9090](http://localhost:9090/) for testing and debugging locally
 
 
 ## Deployment
