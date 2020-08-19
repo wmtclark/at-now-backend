@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema({
   name: String,
+  gid: String,
   classes: [String],
 },
 {
