@@ -2,8 +2,9 @@ import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema({
   name: String,
+  assignments: [Schema.Types.ObjectId],
+  calendar_link: String,
   gid: String,
-  classes: [String],
 },
 {
   toObject: { virtuals: true },

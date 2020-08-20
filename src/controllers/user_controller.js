@@ -9,24 +9,20 @@ dotenv.config({ silent: true });
 
 export const signin = (req, res, next) => {
   return verifyToken(req.body.accessToken).then((payload) => {
-    console.log(payload);
     res.send({ jwt: tokenForUser(payload.sub) });
-  }).catch((e) => { res.send(e); });
+  }).catch((e) => { res.status(400).send(e); });
 };
 
 export const signup = (req, res, next) => {
   return verifyToken(req.body.accessToken).then((payload) => {
-    console.log(payload);
     if (!payload) {
       return res.status(422).send('You must provide valid ID token');
     } else {
       return User.findOne({ gid: payload.sub }).then((user) => {
-        console.log(user);
         if (user) return res.json({ message: 'User already exists' });
         else {
           const newUser = new User();
           newUser.name = '';
-          newUser.classes = [];
           newUser.gid = payload.sub;
           return newUser.save()
             .then((result) => {
