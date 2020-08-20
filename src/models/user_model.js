@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema({
   name: String,
-  assignments: [{ type: Schema.Types.ObjectId, ref: 'Assignment' }],
+  assignments: [Schema.Types.ObjectId],
   calendar_link: String,
   gid: String,
 },

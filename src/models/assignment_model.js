@@ -1,10 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 // populated from each calendar link
-const AssigmentSchema = new Schema({
+const AssignmentSchema = new Schema({
   type: String,
   params: Schema.Types.Mixed,
   dtstamp: Date,
-  uid: String,
+  uid: { type: String, unique: true, index: true },
   start: Date,
   datetype: String,
   end: Date,
@@ -13,8 +13,8 @@ const AssigmentSchema = new Schema({
   sequence: String,
   summary: String, // this has format "some words [class ID]"
   url: String,
-  val: String,
   timeblocks: [{ type: Schema.Types.ObjectId, ref: 'Timeblock' }],
+  times: [Number],
 }, {
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
@@ -22,6 +22,6 @@ const AssigmentSchema = new Schema({
 });
 
 // create model class
-const AssignmentModel = mongoose.model('Assigment', AssigmentSchema);
+const AssignmentModel = mongoose.model('Assigment', AssignmentSchema);
 
 export default AssignmentModel;
