@@ -2,6 +2,7 @@ import jwt from 'jwt-simple';
 import dotenv from 'dotenv';
 import User from '../models/user_model';
 import verifyToken from '../services/verify_token';
+import parseIcs from '../helpers/parse_ics';
 
 dotenv.config({ silent: true });
 
@@ -35,6 +36,17 @@ export const signup = (req, res, next) => {
       });
     }
   }).catch((e) => { res.send(e); });
+};
+
+export const setup = (req, res, next) => {
+  return parseIcs(req.user.gid, req.body.calendar_link)
+    .then((saved) => {
+      res.send(saved);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({ error });
+    });
 };
 
 function tokenForUser(sub) {
