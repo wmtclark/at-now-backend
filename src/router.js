@@ -8,7 +8,9 @@ router.get('/', (req, res) => {
   res.json({ message: 'welcome to our user api!' });
 });
 
-router.post('/user/setup', requireAuth, UserController.setup);
+router.route('/assignments')
+  .get(requireAuth, UserController.assignmentListReturn)
+  .post(requireAuth, UserController.setup);
 router.post('/signin', UserController.signin);
 router.post('/signup', UserController.signup);
 export default router;
