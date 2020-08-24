@@ -22,6 +22,6 @@ const AssignmentSchema = new Schema({
 });
 
 // create model class
-const AssignmentModel = mongoose.model('Assigment', AssignmentSchema);
+const AssignmentModel = mongoose.model('Assignment', AssignmentSchema);
 
 export default AssignmentModel;
