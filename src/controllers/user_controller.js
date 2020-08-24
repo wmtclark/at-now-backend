@@ -1,9 +1,9 @@
-ssimport jwt from 'jwt-simple';
+import jwt from 'jwt-simple';
 import dotenv from 'dotenv';
 import User from '../models/user_model';
 import verifyToken from '../services/verify_token';
 import parseIcs from '../helpers/parse_ics';
-igimport Assignment from '../models/assignment_model';
+import Assignment from '../models/assignment_model';
 
 dotenv.config({ silent: true });
 
