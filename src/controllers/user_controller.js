@@ -2,6 +2,8 @@ import jwt from 'jwt-simple';
 import dotenv from 'dotenv';
 import User from '../models/user_model';
 import verifyToken from '../services/verify_token';
+import parseIcs from '../helpers/parse_ics';
+import Assignment from '../models/assignment_model';
 
 dotenv.config({ silent: true });
 
@@ -35,6 +37,24 @@ export const signup = (req, res, next) => {
       });
     }
   }).catch((e) => { res.send(e); });
+};
+
+// function to setup a new user, takes their calendar, and returns a list of assignments
+export const setup = (req, res, next) => {
+  return parseIcs(req.user.gid, req.body.calendar_link) // parse the ICS link
+    .then((saved) => {
+      res.send(saved);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({ error });
+    });
+};
+
+export const assignmentListReturn = async (req, res, next) => {
+  const user = await User.findOne({ gid: req.user.gid });
+  const returnArray = await Promise.all(user.assignments.map((id) => { return Assignment.findOne({ _id: id }).catch((error) => { console.log(error); }); }));
+  res.send(returnArray);
 };
 
 function tokenForUser(sub) {
