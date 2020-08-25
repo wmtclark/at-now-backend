@@ -25,6 +25,7 @@ async function parseIcs(gid, calendarLink) {
     promises.push(promise);
   });
   await Promise.all(promises); // wait for all promises to return
+  user.assignments.sort((a, b) => { return a.end - b.end; });
   await user.save(); // save the updated user with assignments list
   return user;
 }
