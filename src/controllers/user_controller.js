@@ -11,7 +11,11 @@ dotenv.config({ silent: true });
 
 export const signin = (req, res, next) => {
   return verifyToken(req.body.accessToken).then((payload) => {
-    res.send({ jwt: tokenForUser(payload.sub) });
+    return User.findOne({ gid: payload.sub }).then((user) => {
+      console.log(user);
+      if (!user) return res.status(401).send({ error: 'User not found' });
+      else return res.send({ jwt: tokenForUser(payload.sub) });
+    });
   }).catch((e) => { res.status(400).send(e); });
 };
 
@@ -28,7 +32,7 @@ export const signup = (req, res, next) => {
           newUser.gid = payload.sub;
           return newUser.save()
             .then((result) => {
-              res.json({ message: 'User created!' });
+              res.json({ jwt: tokenForUser(payload.sub) });
             })
             .catch((error) => {
               res.status(500).json({ error });
