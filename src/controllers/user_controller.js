@@ -43,7 +43,7 @@ export const signup = (req, res, next) => {
 export const setup = (req, res, next) => {
   return parseIcs(req.user.gid, req.body.calendar_link) // parse the ICS link
     .then((saved) => {
-      res.send(saved);
+      res.status(200).send();
     })
     .catch((error) => {
       console.log(error);

@@ -15,8 +15,6 @@ export const timeReturn = (req, res, next) => {
 export const submitTime = (req, res, next) => {
   return Assignment.findOne({ _id: req.body.id }).then((assignment) => {
     assignment.times.push(req.body.time);
-    console.log(assignment.times);
-    console.log(req.body.time);
     assignment.save().then(() => {
       res.send('time successfully added');
     }).catch(() => { res.status(400).send('error saving assignment'); });
