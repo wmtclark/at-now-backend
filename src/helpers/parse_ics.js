@@ -6,7 +6,12 @@ async function parseIcs(gid, calendarLink) {
   const user = await User.findOne({ gid }); // finds the user by gid
   user.assignments = [];
   user.calendar_link = calendarLink; // link passed by frontend
-  const data = await ical.async.fromURL(user.calendar_link); // turns the url into an object of data
+  let data;
+  try {
+    data = await ical.async.fromURL(user.calendar_link); // turns the url into an object of data
+  } catch (error) {
+    return (null);
+  }
   const promises = [];
   Object.keys(data).forEach((key) => { // gets assignments
     const assignment = new Assignment();
@@ -16,10 +21,12 @@ async function parseIcs(gid, calendarLink) {
     const promise = Assignment.findOne({ uid: assignment.uid }) // store the promise
       .then((foundassignment) => {
         if (foundassignment) {
-          user.assignments.push(foundassignment); // add found assignment
+          const assignmentListObject = { assignment: foundassignment, status: 'unscheduled' };
+          user.assignments.push(assignmentListObject); // add found assignment
         } else {
           promises.push(assignment.save()); // add the promise to list we need to await
-          user.assignments.push(assignment); // add the newly created assignment
+          const assignmentListObject = { assignment, status: 'unscheduled' };
+          user.assignments.push(assignmentListObject); // add the newly created assignment
         }
       });
     promises.push(promise);

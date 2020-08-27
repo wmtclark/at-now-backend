@@ -43,6 +43,9 @@ export const signup = (req, res, next) => {
 export const setup = (req, res, next) => {
   return parseIcs(req.user.gid, req.body.calendar_link) // parse the ICS link
     .then((saved) => {
+      if (saved === null) {
+        res.status(403).send({ error: 'invalid ics' });
+      }
       res.status(200).send();
     })
     .catch((error) => {
@@ -53,7 +56,14 @@ export const setup = (req, res, next) => {
 
 export const assignmentListReturn = async (req, res, next) => {
   const user = await User.findOne({ gid: req.user.gid });
-  const returnArray = await Promise.all(user.assignments.map((id) => { return Assignment.findOne({ _id: id }).catch((error) => { console.log(error); }); }));
+  const returnArray = [];
+  await Promise.all(
+    user.assignments.map((assignment) => {
+      return Assignment.findOne({ _id: assignment.assignment })
+        .then((data) => { return returnArray.push({ assignment: data, status: assignment.status }); })
+        .catch((error) => { res.status(403).send(error); });
+    }),
+  );
   res.send(returnArray);
 };
 
@@ -61,3 +71,29 @@ function tokenForUser(sub) {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub, iat: timestamp }, process.env.AUTH_SECRET);
 }
+
+export const assignmentStatusUpdate = async (req, res, next) => {
+  const user = await User.findOne({ gid: req.user.gid });
+  // console.log(user.assignments);
+  const assignment = await user.assignments.find((assn) => {
+    return req.body.id === assn.assignment.toString();
+  });
+  if (assignment === undefined) {
+    res.status(403).send({ error: 'invalid object ID' });
+  } else {
+    assignment.status = req.body.status;
+    await user.save();
+    res.status(200).send();
+  }
+};
+
+export const assignmentStatusGet = async (req, res, next) => {
+  const user = await User.findOne({ gid: req.user.gid });
+  // console.log(user.assignments);
+  const assignment = await user.assignments.find((assn) => {
+    return req.body.id === assn.assignment.toString();
+  });
+  if (assignment === undefined) {
+    res.status(403).send({ error: 'invalid object ID' });
+  } else { res.send({ status: assignment.status }); }
+};
