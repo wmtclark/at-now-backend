@@ -1,4 +1,5 @@
 import ical from 'node-ical';
+import * as parseCourse from './parse_course';
 import User from '../models/user_model';
 import Assignment from '../models/assignment_model';
 
@@ -18,6 +19,8 @@ async function parseIcs(gid, calendarLink) {
     Object.keys(data[key]).forEach((key2) => { // gets specific assignment in array
       assignment[key2] = data[key][key2]; // fills the assignment from the data
     });
+    assignment.summaryObject = parseCourse.getCourseObject(assignment.summary);
+    assignment.courseUrl = parseCourse.urlConstructor(assignment.url);
     const promise = Assignment.findOne({ uid: assignment.uid }) // store the promise
       .then((foundassignment) => {
         if (foundassignment) {
