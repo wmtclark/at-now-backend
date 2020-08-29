@@ -23,7 +23,7 @@ router.post('/signin', UserController.signin);
 router.post('/signup', UserController.signup);
 
 router.route('/calendar')
-  .post(requireAuth, UserController.setCaledarString)
-  .get(requireAuth, UserController.getCaledarString);
+  .post(requireAuth, UserController.setCalendarString)
+  .get(requireAuth, UserController.getCalendarString);
 
 export default router;
