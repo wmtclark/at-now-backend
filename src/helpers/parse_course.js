@@ -16,6 +16,7 @@ export const getCourseObject = ((summary) => {
   // to make it legible in the frontend
   const typeMatchArray = summary.match(/^[a-zA-Z]*/);
   const type = typeMatchArray[0];
+  console.log({ name: namesArray, term, type });
   return ({ name: namesArray, term, type });
 });
 export const urlConstructor = (url) => {
