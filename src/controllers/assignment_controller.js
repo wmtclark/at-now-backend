@@ -16,7 +16,7 @@ export const submitTime = (req, res, next) => {
   return Assignment.findOne({ _id: req.body.id }).then((assignment) => {
     assignment.times.push(req.body.time);
     assignment.save().then(() => {
-      res.send('time successfully added');
+      res.status(200).send();
     }).catch(() => { res.status(400).send('error saving assignment'); });
   }).catch((error) => { return res.status(400).send('assignment not found'); });
 };
