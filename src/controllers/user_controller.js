@@ -12,7 +12,6 @@ dotenv.config({ silent: true });
 export const signin = (req, res, next) => {
   return verifyToken(req.body.accessToken).then((payload) => {
     return User.findOne({ gid: payload.sub }).then((user) => {
-      console.log(user);
       if (!user) return res.status(401).send({ error: 'User not found' });
       else return res.send({ jwt: tokenForUser(payload.sub) });
     });
@@ -48,12 +47,12 @@ export const setup = (req, res, next) => {
   return parseIcs(req.user.gid, req.body.calendar_link) // parse the ICS link
     .then((saved) => {
       if (saved === null) {
-        res.status(403).send({ error: 'invalid ics' });
+        res.status(400).send({ error: 'invalid ics' });
+      } else {
+        res.status(200).send();
       }
-      res.status(200).send();
     })
     .catch((error) => {
-      console.log(error);
       res.status(400).json({ error });
     });
 };
@@ -78,7 +77,6 @@ export const assignmentListReturn = async (req, res, next) => {
 export const getCalendarString = (req, res) => {
   if (req.user && req.user.gcal_string) res.send({ calendarString: req.user.gcal_string });
   else res.status(404).send({ error: 'Missing google calendar string' });
-  console.log(req.user);
 };
 
 export const setCalendarString = (req, res) => {
