@@ -16,7 +16,6 @@ export const getCourseObject = ((summary) => {
   const type = summary.match(/^[a-zA-Z]*/)[0];
 
   const assignmentSummary = summary.match(/^.*(?=\[)/)[0];
-  console.log(assignmentSummary);
   return ({
     name: namesArray, term, type, assignmentSummary,
   });
