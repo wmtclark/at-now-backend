@@ -64,7 +64,12 @@ export const assignmentListReturn = async (req, res, next) => {
   await Promise.all(
     user.assignments.map((assignment) => {
       return Assignment.findOne({ _id: assignment.assignment })
-        .then((data) => { return returnArray.push({ assignment: data, status: assignment.status }); })
+        .then(({ _doc }) => {
+          returnArray.push({
+            status: assignment.status,
+            ..._doc,
+          });
+        })
         .catch((error) => { res.status(403).send(error); });
     }),
   );

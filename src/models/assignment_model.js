@@ -13,6 +13,8 @@ const AssignmentSchema = new Schema({
   sequence: String,
   summary: String, // this has format "some words [class ID]"
   url: String,
+  summaryObject: Schema.Types.Mixed,
+  courseUrl: String,
   timeblocks: [{ type: Schema.Types.ObjectId, ref: 'Timeblock' }],
   times: [Number],
 }, {
