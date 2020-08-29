@@ -21,4 +21,9 @@ router.route('/assignment/submit')
   .post(requireAuth, AssignmentController.submitTime);
 router.post('/signin', UserController.signin);
 router.post('/signup', UserController.signup);
+
+router.route('/calendar')
+  .post(requireAuth, UserController.setCalendarString)
+  .get(requireAuth, UserController.getCalendarString);
+
 export default router;

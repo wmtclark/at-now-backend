@@ -75,6 +75,19 @@ export const assignmentListReturn = async (req, res, next) => {
   );
   res.send(returnArray);
 };
+export const getCalendarString = (req, res) => {
+  if (req.user && req.user.gcal_string) res.send({ calendarString: req.user.gcal_string });
+  else res.status(404).send({ error: 'Missing google calendar string' });
+  console.log(req.user);
+};
+
+export const setCalendarString = (req, res) => {
+  if (req.user) {
+    req.user.gcal_string = req.body.calendarString;
+    req.user.save();
+    res.send({ message: 'Set Sucessfully' });
+  } else res.status(404).send({ error: 'user not found' });
+};
 
 function tokenForUser(sub) {
   const timestamp = new Date().getTime();
