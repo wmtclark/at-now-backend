@@ -79,6 +79,11 @@ export const getCalendarString = (req, res) => {
   else res.status(404).send({ error: 'Missing google calendar string' });
 };
 
+export const hasICS = (req, res) => {
+  if (req.user.calendar_link) res.send({ ICS: req.user.calendar_link });
+  else res.status(404).send({ error: 'Missing ICS' });
+};
+
 export const setCalendarString = (req, res) => {
   if (req.user) {
     req.user.gcal_string = req.body.calendarString;
