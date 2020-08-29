@@ -26,4 +26,6 @@ router.route('/calendar')
   .post(requireAuth, UserController.setCalendarString)
   .get(requireAuth, UserController.getCalendarString);
 
+router.get('/hasICS', requireAuth, UserController.hasICS);
+
 export default router;
