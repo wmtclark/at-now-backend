@@ -20,9 +20,7 @@ async function parseIcs(gid, calendarLink) {
       assignment[key2] = data[key][key2]; // fills the assignment from the data
     });
     assignment.summaryObject = parseCourse.getCourseObject(assignment.summary);
-    console.log(assignment.summaryObject);
     assignment.courseUrl = parseCourse.urlConstructor(assignment.url);
-    console.log(assignment);
     const promise = Assignment.findOne({ uid: assignment.uid }) // store the promise
       .then((foundassignment) => {
         if (foundassignment) {
