@@ -9,15 +9,17 @@ export const getCourseObject = ((summary) => {
     return course.replace('.', ' ');
   });
   // then find the term name with another regex
-  const termMatchArray = summary.match(/(?<=\[.*-)(\d|\w)*(?=\])/);
-  const term = termMatchArray[0];
+  const term = summary.match(/(?<=\[.*-)(\d|\w)*(?=\])/)[0];
   // finally find the type with a third regex
   // initially this will just be everything up to a number or the first 20 characters
   // to make it legible in the frontend
-  const typeMatchArray = summary.match(/^[a-zA-Z]*/);
-  const type = typeMatchArray[0];
-  console.log({ name: namesArray, term, type });
-  return ({ name: namesArray, term, type });
+  const type = summary.match(/^[a-zA-Z]*/)[0];
+
+  const assignmentSummary = summary.match(/^.*(?=\[)/)[0];
+  console.log(assignmentSummary);
+  return ({
+    name: namesArray, term, type, assignmentSummary,
+  });
 });
 export const urlConstructor = (url) => {
   const baseUrl = url.match(/\/\/.*\//)[0];
