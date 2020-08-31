@@ -12,8 +12,8 @@ router.get('/', (req, res) => {
 router.route('/assignments')
   .get(requireAuth, UserController.assignmentListReturn)
   .post(requireAuth, UserController.setup);
-router.route('/assignment')
-  .get(requireAuth, AssignmentController.timeReturn);
+router.route('/assignment/time')
+  .post(requireAuth, AssignmentController.timeReturn);
 router.route('/assignment/status')
   .post(requireAuth, UserController.assignmentStatusUpdate)
   .get(requireAuth, UserController.assignmentStatusGet);
