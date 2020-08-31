@@ -14,9 +14,10 @@ router.route('/assignments')
   .post(requireAuth, UserController.setup);
 router.route('/assignment/time')
   .post(requireAuth, AssignmentController.timeReturn);
-router.route('/assignment/status')
-  .post(requireAuth, UserController.assignmentStatusUpdate)
-  .get(requireAuth, UserController.assignmentStatusGet);
+router.route('/assignment/statusUpdate')
+  .post(requireAuth, UserController.assignmentStatusUpdate);
+router.route('/assignmens/statusGet')
+  .post(requireAuth, UserController.assignmentStatusGet);
 router.route('/assignment/submit')
   .post(requireAuth, AssignmentController.submitTime);
 router.post('/signin', UserController.signin);
